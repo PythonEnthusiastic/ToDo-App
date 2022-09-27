@@ -20,6 +20,7 @@ h1 {
     color: white;
     flex: 1;
     text-align: right;
+    margin: 0px;
 }
 
 .jumbotron-fluid, .row {
@@ -29,16 +30,21 @@ h1 {
 
 #left-content {
     height: 100vh;
-    background-color: blue;
+    width: 0px;
+    background-color: #ebebeb;
     margin: 0px;
     padding: 0px;
+    transition: .4s;
 }
 
 #left-content input {
     width: 100%;
-    margin: 10px 0;
+    margin-top: 20px;
     padding: 10px 0px;
-    padding-left: 10px;
+    padding-left: 5%;
+    border: 0.5px solid black;
+    border-radius: 1px;
+    font-size: 1.2em;
 }
 
 #left-content ul {
@@ -65,9 +71,12 @@ h1 {
     margin-left: 10%;
 }
 
+input {
+    outline: none;
+}
+
 #right-content {
     height: 100vh;
-    background-color: red;
 }
 
 @media only screen and (min-width: 992px) {

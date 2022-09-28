@@ -34,6 +34,8 @@ h1 {
     background-color: #ebebeb;
     margin: 0px;
     padding: 0px;
+    position: absolute;
+    z-index: 1;
     transition: .4s;
 }
 
@@ -43,6 +45,7 @@ h1 {
     padding: 10px 0px;
     padding-left: 5%;
     border: 0.5px solid black;
+    border-left: none;
     border-radius: 1px;
     font-size: 1.2em;
 }
@@ -56,8 +59,9 @@ h1 {
 
 #left-content ul li {
     width: 100%;
-    list-style: none;
     margin: 0px;
+    cursor: pointer;
+    list-style: none;
 }
 
 #left-content ul li:hover {
@@ -77,6 +81,81 @@ input {
 
 #right-content {
     height: 100vh;
+    margin-top: 30px;
+}
+
+#right-content .todo-container {
+    overflow-y: scroll;
+    height: 70%;
+    border: 0.5px solid black;
+    border-radius: 5px;
+}
+
+#right-content .todo-container .todo-task {
+    padding: 15px 0px 15px 0px;
+    display: flex;
+    align-items: center;
+    border: 0.5px solid black;
+}
+
+#right-content .todo-container .todo-task h3 {
+    padding: 0px;
+    padding-left: 10px;
+    margin: 0px;
+}
+
+#right-content .todo-container .todo-task .check-box {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 25px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#right-content .todo-container .todo-task .check-box .checkTask {
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+#right-content .todo-container .todo-task .check-box .checkmark {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.check-box:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.check-box input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.check-box input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.check-box .checkmark:after {
+    left: 7px;
+    top: 0px;
+    width: 10px;
+    height: 17px;
+    border: solid green;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 @media only screen and (min-width: 992px) {

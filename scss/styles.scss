@@ -3,15 +3,20 @@
     margin: 0px;
     border: 0px;
     font-family: sans-serif;
+    box-sizing: border-box;
 }
 
 html, body {
     overflow: hidden;
 }
 
+body {
+    min-height: 100vh;
+    border: 5px dashed red;
+}
+
 .navbar {
     display: flex;
-    box-sizing: border-box;
     padding-left: 8%;
     padding-right: 8%;
 }
@@ -23,13 +28,18 @@ h1 {
     margin: 0px;
 }
 
-.jumbotron-fluid, .row {
+.jum {
+    min-height: 100vh;
+}
+
+.jum, .row {
+    min-height: 100%;
     width: 100%;
     margin: 0px;
 }
 
 #left-content {
-    height: 100vh;
+    height: 100%;
     width: 0px;
     background-color: #ebebeb;
     margin: 0px;
@@ -37,6 +47,7 @@ h1 {
     position: absolute;
     z-index: 1;
     transition: .4s;
+    box-sizing: border-box;
 }
 
 #left-content input {
@@ -91,13 +102,15 @@ input {
 }
 
 #right-content {
-    height: 100vh;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
     margin-top: 30px;
 }
 
 #right-content #todo-container {
+    height: 40vh;
     overflow-y: scroll;
-    height: 70%;
     border: 0.5px solid black;
     border-radius: 5px;
 }
@@ -161,6 +174,35 @@ input {
     border-width: 0 2px 2px 0;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.make-task {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.make-task * {
+    width: 100%;
+}
+
+.make-task input {
+    padding: 10px 0px;
+    padding-left: 5%;
+    border: 0.5px solid black;
+    border-radius: 1px;
+    font-size: 1.2em;
+}
+
+.make-task button {
+    margin-top: 5px;
+    padding: 10px 0px;
+    color: white;
+    background-color: #444444;
+    white-space: nowrap;
+    font-size: 1.2em;
 }
 
 @media only screen and (min-width: 992px) {

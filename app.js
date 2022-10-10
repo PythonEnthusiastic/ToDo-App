@@ -2,6 +2,12 @@ let list_storage = {};
 let current_list;
 
 window.onload = function() {
+    if (!localStorage.getItem('list_storage')) {
+        save()
+    }
+
+    document.querySelector("ul").innerHTML = "";
+
     list_storage = JSON.parse(localStorage.getItem('list_storage'));
 
     for (let i = 0; i < Object.keys(list_storage).length; i++) {
@@ -29,8 +35,8 @@ function load_list(id) {
     list_storage = JSON.parse(localStorage.getItem('list_storage'));   
 
     current_list = [
-        list_storage[id],
-    ]; 
+        list_storage[id]
+    ];
 
     let todo_header = document.querySelector("#right-content");
     
@@ -59,11 +65,20 @@ function load_list(id) {
 
 //  }
 
+function eraseList(id) {
+    delete list_storage[id];
+    save();
+    window.onload();
+}
+
 function getListHTML(name, id) {
     return `
-        <li id="${id}" onclick="load_list(${id})">
-            <h4>${name}</h4>
-        </li>
+        <div class="todo-list">
+            <li id="${id}" onclick="load_list(${id})">
+                <h4>${name}</h4>
+            </li>
+            <i class="fa-sharp fa-solid fa-trash" onclick="eraseList(${id})"></i>
+        </div>
     `;
 }
 
@@ -106,6 +121,7 @@ function addTask() {
                 <span class="checkmark"></span>
             </label>
             <h3>${task_input.value}</h3>
+            <i class="fa-sharp fa-solid fa-trash"></i>
         </div>
     `;
 
@@ -116,6 +132,5 @@ function addTask() {
     console.log(current_list)
     console.log(list_storage)
 
-    
     task_input.value = "";
 }

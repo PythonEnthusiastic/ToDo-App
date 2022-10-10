@@ -6,19 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link defer href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/styles.css">
+        <script defer src="https://kit.fontawesome.com/67cdb3fd32.js" crossorigin="anonymous"></script>
         <script defer src="app.js"></script>
         <title>Document</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" onclick="displayMenu()">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1>Listo</h1>
-        </nav>
+        </div>
         <div class="jum">
             <div class="row">
-                <div id="left-content" class="col-8 col-md-3">
+                <div id="left-content" class="col-8 col-md-3 col-lg-3">
                     <input id="listName" type="text" placeholder="Enter List Name...">
                     <button type="button" onclick="addList()">Create List</button>
                     <ul>
@@ -27,7 +28,7 @@
                         </li>
                     </ul>
                 </div>
-                <div id="right-content" class="col col-md-9">
+                <div id="right-content" class="col col-md-9 col-lg-8">
                     <h2>Red Hot</h2>
                     <hr>
                     <div id="todo-container">

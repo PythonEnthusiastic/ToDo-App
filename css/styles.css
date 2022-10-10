@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .navbar {
@@ -139,8 +139,19 @@ input {
 }
 
 #right-content #todo-container .todo-task h3 {
+  font-size: 1.2em;
   padding: 0px;
   padding-left: 10px;
+  margin: 0px;
+}
+
+#right-content #todo-container .todo-task i {
+  text-align: right;
+  flex: 1;
+  font-size: 1.2em;
+  padding: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
   margin: 0px;
 }
 
@@ -221,7 +232,6 @@ input {
     text-align: center;
   }
   #left-content {
-    position: static;
     transition: 0s;
     z-index: 0;
     width: 20%;

@@ -32,10 +32,16 @@ function displayMenu() {
 }
 
 function load_list(id) {
+    load_tasks(id)
+    displayMenu();
+ }
+
+function load_tasks(id){
     list_storage = JSON.parse(localStorage.getItem('list_storage'));   
 
     current_list = [
-        list_storage[id]
+        list_storage[id],
+        id
     ];
 
     let todo_header = document.querySelector("#right-content");
@@ -54,16 +60,22 @@ function load_list(id) {
                     <span class="checkmark"></span>
                 </label>
                 <h3>${current_list[0].todos[task].taskName}</h3>
+                <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${current_list[0].todos[task].taskName}')"></i>
             </div>
         `;
     }
+}
 
-    displayMenu();
- }
-
-//  function addCurrentList() {
-
-//  }
+function deleteTask(val) {
+    for (let i = 0; i < list_storage[current_list[1]].todos.length; i++) {
+        if (list_storage[current_list[1]].todos[i].taskName == val) {
+            list_storage[current_list[1]].todos.splice(i, 1);
+            break
+        }
+    }
+    save();
+    load_tasks(current_list[1]);
+}
 
 function eraseList(id) {
     delete list_storage[id];
@@ -121,7 +133,7 @@ function addTask() {
                 <span class="checkmark"></span>
             </label>
             <h3>${task_input.value}</h3>
-            <i class="fa-sharp fa-solid fa-trash"></i>
+            <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${task_input.value}')"></i>
         </div>
     `;
 

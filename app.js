@@ -56,20 +56,23 @@ function load_tasks(id){
         list_container.innerHTML += `
             <div class="todo-task">
                 <label class="check-box">
-                    <input class="checkTask" type="checkbox">
+                    <input class="checkTask" type="checkbox" onclick="markCompleted(${current_list[0].todos[task].taskID})">
                     <span class="checkmark"></span>
                 </label>
-                <h3>${current_list[0].todos[task].taskName}</h3>
-                <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${current_list[0].todos[task].taskName}')"></i>
+                <h3 id="${current_list[0].todos[task].taskID}">${current_list[0].todos[task].taskName}</h3>
+                <div class="task-options">
+                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editButton('${current_list[0].todos[task].taskID}')"></i>
+                    <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${current_list[0].todos[task].taskID}')"></i>
+                </div>
             </div>
         `;
     }
 }
 
-function deleteTask(val) {
-    for (let i = 0; i < list_storage[current_list[1]].todos.length; i++) {
-        if (list_storage[current_list[1]].todos[i].taskName == val) {
-            list_storage[current_list[1]].todos.splice(i, 1);
+function deleteTask(id) {
+    for (let i = current_list[0].todos.length - 1; i > -1; i--) {
+        if (current_list[0].todos[i].taskID == id) {
+            current_list[0].todos.splice(i, 1);
             break
         }
     }
@@ -99,10 +102,12 @@ function store_list(name, id) {
         listName: name,
         todos: [
             {
-                taskName: "yo angelo"
+                taskName: "yo angelo",
+                completed: false
             },
             {
-                taskName: "because it is"
+                taskName: "because it is",
+                completed: false
             }
         ]
     };
@@ -125,24 +130,69 @@ function addList() {
 function addTask() {
     let task_input = document.querySelector("#todoName");
     let add_todo = document.querySelector("#todo-container");
+    let make_id = Math.random();
 
     add_todo.innerHTML += `
         <div class="todo-task">
-            <label class="check-box">
-                <input class="checkTask" type="checkbox">
+            <label class="check-box" >
+                <input class="checkTask" type="checkbox" onclick="markCompleted(${make_id})">
                 <span class="checkmark"></span>
             </label>
-            <h3>${task_input.value}</h3>
-            <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${task_input.value}')"></i>
+            <h3 id="${make_id}">${task_input.value}</h3>
+            <div class="task-options">
+                <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editButton('${make_id}')"></i>
+                <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${make_id}')"></i>
+            </div>
         </div>
     `;
 
     current_list[0].todos.push({
-        taskName: `${task_input.value}`
+        taskName: `${task_input.value}`,
+        completed: false,
+        taskID: make_id
     });
     save();
-    console.log(current_list)
-    console.log(list_storage)
 
     task_input.value = "";
+}
+
+function markCompleted(id) {
+    for (let i = 0; i < current_list[0].todos.length; i++) {
+        if (current_list[0].todos[i].taskID == id) {
+            current_list[0].todos[i].completed = current_list[0].todos[i].completed ? false : true;
+            break
+        }
+    }
+}
+
+function deleteAllCompleted() {
+    for (let i = current_list[0].todos.length - 1; i > -1; i--) {
+        if (current_list[0].todos[i].completed == true) {
+            current_list[0].todos.splice(i, 1);
+        }
+    }
+
+    save();
+    load_tasks(current_list[1]);
+}
+
+function editButton(id) {
+    let editText = document.getElementById(id);
+
+    if (editText.contentEditable == "true") {
+        editText.contentEditable = false;
+        editText.style.border = "none";
+
+        for (let i = 0; i < current_list[0].todos.length; i++) {
+            if (current_list[0].todos[i].taskID == id) {
+                current_list[0].todos[i].taskName = editText.textContent;
+            }
+        }
+
+        save()
+    } else {
+        editText.contentEditable = true;
+        editText.style.border = "2px solid black";
+    }
+    
 }

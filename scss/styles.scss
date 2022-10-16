@@ -1,3 +1,17 @@
+// Things to do ranked by priority (greatest to least):
+// (Status: Completed) finish the delete completed tasks button
+// (Status: Completed) add ids to tasks so it erases the one that is clicked 
+// not the first in the list with the same name
+// (Status: Completed) make the edit button work
+// (Status: Unfinished) when the list you're currently on gets deleted 
+// you should then go to the first list
+// (Status: Unfinished) when all lists are deleted it should show a black screen
+// (Status: Unfinished) animate the deletion process
+// (Status: Unfinished) fix the height so it's responsive
+// (Status: Unfinished) fix the navbar so it's responsive
+// (Status: Unfinished) highlighting is annoying so fix that
+// (Status: Unfinished) add unamed for tasks
+
 * {
     padding: 0px;
     margin: 0px;
@@ -128,7 +142,7 @@ input {
 }
 
 #right-content #todo-container {
-    height: 40vh;
+    height: 42vh;
     overflow-y: scroll;
     border: 0.5px solid black;
     border-radius: 5px;
@@ -142,26 +156,34 @@ input {
 }
 
 #right-content #todo-container .todo-task h3 {
-    font-size: 1.2em;
+    word-break: break-all;
+    font-size: 1.3em;
     padding: 0px;
     padding-left: 10px;
     margin: 0px;
 }
 
-#right-content #todo-container .todo-task i {
-    text-align: right;
+#right-content #todo-container .todo-task .task-options {
+    position: relative;
+    white-space: nowrap;
     flex: 1;
-    font-size: 1.2em;
+    text-align: right;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+#right-content #todo-container .todo-task .task-options i {
+    display: inline-block;
+    font-size: 1.4em;
     padding: 0px;
-    padding-left: 15px;
-    padding-right: 15px;
     margin: 0px;
+    margin-right: 15px;
 }
 
 #right-content #todo-container .todo-task .check-box {
     display: block;
     position: relative;
-    padding-left: 15px;
+    padding-left: 14px;
     padding-right: 30px;
     cursor: pointer;
     user-select: none;
@@ -209,6 +231,7 @@ input {
 .make-task {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
 }
 
 .make-task * {
@@ -223,11 +246,20 @@ input {
     font-size: 1.2em;
 }
 
-.make-task button {
+.make-task .todoName {
     margin-top: 5px;
     padding: 10px 0px;
     color: white;
     background-color: #444444;
+    white-space: nowrap;
+    font-size: 1.2em;
+}
+
+.make-task #deleteAll {
+    margin-top: 5px;
+    padding: 10px 0px;
+    color: white;
+    background-color: #c83f49; // cb4154
     white-space: nowrap;
     font-size: 1.2em;
 }
@@ -238,6 +270,7 @@ input {
     }
 
     #left-content {
+        position: relative;
         transition: 0s;
         z-index: 0;
         width: 20%;

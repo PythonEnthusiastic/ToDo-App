@@ -61,11 +61,11 @@ function load_tasks(id){
         <hr>
         <div id="todo-container">
         </div>
-        <div class="make-task">
+        <form class="make-task" onsubmit="return false">
             <input id="todoName" type="text" placeholder="Enter Task Name...">
-            <button class="todoName" type="button" onclick="addTask()">Create Task</button>
+            <button for="todoName" id="todoSubmit" class="todoName" type="submit" onclick="addTask()">Create Task</button>
             <button id="deleteAll" type="button" onclick="deleteAllCompleted()">Delete Completed Tasks</button>
-        </div>
+        </form>
     `
     
     todo_header.querySelector('h2').innerText = `${current_list[0].listName}`;

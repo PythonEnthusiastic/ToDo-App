@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow: hidden;
+}
+
 body {
   min-height: 100vh;
 }
@@ -271,6 +275,13 @@ input {
     margin-top: 15px;
     overflow: scroll;
     padding: 0px;
+  }
+  .make-task input {
+    padding: 10px 0px;
+    padding-left: 2%;
+    border: 0.5px solid black;
+    border-radius: 1px;
+    font-size: 1.2em;
   }
 }
 @media only screen and (min-width: 2000px) {

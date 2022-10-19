@@ -3,14 +3,15 @@
 // (Status: Completed) add ids to tasks so it erases the one that is clicked 
 // not the first in the list with the same name
 // (Status: Completed) make the edit button work
-// (Status: Unfinished) when the list you're currently on gets deleted 
+// (Status: Completed) when the list you're currently on gets deleted 
 // you should then go to the first list
-// (Status: Unfinished) when all lists are deleted it should show a black screen
-// (Status: Unfinished) animate the deletion process
+// (Status: Completed) when all lists are deleted it should show a black screen
+// (Status: Completed) animate the deletion process
 // (Status: Unfinished) fix the height so it's responsive
-// (Status: Unfinished) fix the navbar so it's responsive
+// (Status: Completed) fix the navbar so it's responsive
 // (Status: Unfinished) highlighting is annoying so fix that
-// (Status: Unfinished) add unamed for tasks
+// (Status: Completed) add unamed for tasks
+// (Status: Completed) make it so tasks will be completed again after you exit the list
 
 * {
     padding: 0px;
@@ -20,9 +21,9 @@
     box-sizing: border-box;
 }
 
-html, body {
-    overflow: hidden;
-}
+// html, body {
+//     overflow: hidden;
+// }
 
 body {
     min-height: 100vh;
@@ -54,14 +55,13 @@ h1 {
 }
 
 #left-content {
+    display: none;
     min-height: 100%;
-    width: 0px;
     background-color: #ebebeb;
     margin: 0px;
     padding: 0px;
     position: absolute;
     z-index: 1;
-    transition: .4s;
     box-sizing: border-box;
 }
 
@@ -112,9 +112,9 @@ h1 {
 }
 
 #left-content ul .todo-list li {
+    height: 100%;
     width: 90%;
-    padding: 10px 0px;
-    margin: 5px 0px;
+    padding: 15px 0px;
     padding-left: 10%;
     font-size: 1.2em;
 }
@@ -141,9 +141,14 @@ input {
     margin-top: 30px;
 }
 
+#right-content h2 {
+    margin: 0px;
+}
+
 #right-content #todo-container {
     height: 42vh;
     overflow-y: scroll;
+    overflow-x: hidden;
     border: 0.5px solid black;
     border-radius: 5px;
 }
@@ -270,10 +275,9 @@ input {
     }
 
     #left-content {
+        display: block !important;
         position: relative;
-        transition: 0s;
         z-index: 0;
-        width: 20%;
     }
 
     #right-content {
@@ -283,10 +287,23 @@ input {
         margin-right: 25px;
     }
 
+    #right-content #todo-container {
+        height: 55vh;
+        overflow-y: scroll;
+        border: 0.5px solid black;
+        border-radius: 5px;
+    }
+
     #left-content ul {
         width: 100%;
         margin-top: 15px;
         overflow: scroll;
         padding: 0px;
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    #right-content #todo-container {
+        height: 80vh;
     }
 }

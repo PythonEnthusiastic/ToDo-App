@@ -6,10 +6,6 @@
   box-sizing: border-box;
 }
 
-html, body {
-  overflow: hidden;
-}
-
 body {
   min-height: 100vh;
 }
@@ -40,14 +36,13 @@ h1 {
 }
 
 #left-content {
+  display: none;
   min-height: 100%;
-  width: 0px;
   background-color: #ebebeb;
   margin: 0px;
   padding: 0px;
   position: absolute;
   z-index: 1;
-  transition: 0.4s;
   box-sizing: border-box;
 }
 
@@ -97,9 +92,9 @@ h1 {
 }
 
 #left-content ul .todo-list li {
+  height: 100%;
   width: 90%;
-  padding: 10px 0px;
-  margin: 5px 0px;
+  padding: 15px 0px;
   padding-left: 10%;
   font-size: 1.2em;
 }
@@ -124,9 +119,14 @@ input {
   margin-top: 30px;
 }
 
+#right-content h2 {
+  margin: 0px;
+}
+
 #right-content #todo-container {
   height: 42vh;
   overflow-y: scroll;
+  overflow-x: hidden;
   border: 0.5px solid black;
   border-radius: 5px;
 }
@@ -250,10 +250,9 @@ input {
     text-align: center;
   }
   #left-content {
+    display: block !important;
     position: relative;
-    transition: 0s;
     z-index: 0;
-    width: 20%;
   }
   #right-content {
     display: flex;
@@ -261,11 +260,22 @@ input {
     margin-left: 25px;
     margin-right: 25px;
   }
+  #right-content #todo-container {
+    height: 55vh;
+    overflow-y: scroll;
+    border: 0.5px solid black;
+    border-radius: 5px;
+  }
   #left-content ul {
     width: 100%;
     margin-top: 15px;
     overflow: scroll;
     padding: 0px;
+  }
+}
+@media only screen and (min-width: 2000px) {
+  #right-content #todo-container {
+    height: 80vh;
   }
 }
 

@@ -1,5 +1,6 @@
 let list_storage = {};
-let current_list;
+let current_list = {};
+let display_current_list;
 
 window.onload = function() {
     if (!localStorage.getItem('list_storage')) {
@@ -9,10 +10,15 @@ window.onload = function() {
     document.querySelector("ul").innerHTML = "";
 
     list_storage = JSON.parse(localStorage.getItem('list_storage'));
-
+    
     for (let i = 0; i < Object.keys(list_storage).length; i++) {
         let new_list = getListHTML(list_storage[Object.keys(list_storage)[i]].listName, Object.keys(list_storage)[i])
         document.querySelector("ul").innerHTML += new_list;
+    }
+
+    if (localStorage.getItem('display_current_list').length > 2) {
+        display_current_list = JSON.parse(localStorage.getItem('display_current_list'));
+        load_tasks(display_current_list[1]);
     }
 }
     
@@ -21,13 +27,17 @@ function save() {
     localStorage.setItem('list_storage', JSON.stringify(list_storage));
 }
 
+function save_current_list() {
+    localStorage.setItem('display_current_list', JSON.stringify(current_list));
+}
+
 function displayMenu() {
     let menu = document.querySelector("#left-content").style;
 
-    if (menu.width == "60%") {
-        menu.width = "0px";
+    if (menu.display == "block") {
+        menu.display = "none";
     } else {
-        menu.width = "60%";
+        menu.display = "block";
     }
 }
 
@@ -45,6 +55,18 @@ function load_tasks(id){
     ];
 
     let todo_header = document.querySelector("#right-content");
+
+    todo_header.innerHTML = `
+        <h2>${current_list[0].listName}</h2>
+        <hr>
+        <div id="todo-container">
+        </div>
+        <div class="make-task">
+            <input id="todoName" type="text" placeholder="Enter Task Name...">
+            <button class="todoName" type="button" onclick="addTask()">Create Task</button>
+            <button id="deleteAll" type="button" onclick="deleteAllCompleted()">Delete Completed Tasks</button>
+        </div>
+    `
     
     todo_header.querySelector('h2').innerText = `${current_list[0].listName}`;
 
@@ -54,12 +76,12 @@ function load_tasks(id){
 
     for (let task = 0; task < current_list[0].todos.length; task++) {
         list_container.innerHTML += `
-            <div class="todo-task">
+            <div class="todo-task" id="${current_list[0].todos[task].taskID}">
                 <label class="check-box">
                     <input class="checkTask" type="checkbox" onclick="markCompleted(${current_list[0].todos[task].taskID})">
                     <span class="checkmark"></span>
                 </label>
-                <h3 id="${current_list[0].todos[task].taskID}">${current_list[0].todos[task].taskName}</h3>
+                <h3>${current_list[0].todos[task].taskName}</h3>
                 <div class="task-options">
                     <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editButton('${current_list[0].todos[task].taskID}')"></i>
                     <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${current_list[0].todos[task].taskID}')"></i>
@@ -67,22 +89,54 @@ function load_tasks(id){
             </div>
         `;
     }
+
+    checkTask();
+    save_current_list();
+}
+
+function checkTask() {
+    for (let i = 0; i < current_list[0].todos.length; i++) {
+        let task_id = current_list[0].todos[i].taskID
+        let box = document.getElementById(task_id);
+        let box_input = box.children[0].children[0];
+
+        box_input.checked = current_list[0].todos[i].completed;        
+    }
+}
+
+function fadeOut(element) {
+    element.style.transition = "1s";
+    element.style.opacity = "0"
 }
 
 function deleteTask(id) {
     for (let i = current_list[0].todos.length - 1; i > -1; i--) {
         if (current_list[0].todos[i].taskID == id) {
+            var todoElement = document.getElementById(`${id}`);
+            fadeOut(todoElement);
             current_list[0].todos.splice(i, 1);
             break
         }
     }
-    save();
-    load_tasks(current_list[1]);
+    
+    save()
+    setTimeout(() => load_tasks(current_list[1]), 850);
 }
 
 function eraseList(id) {
     delete list_storage[id];
+
     save();
+
+    if (id == current_list[1] && Object.keys(list_storage).length) {
+        load_tasks(Object.keys(list_storage)[0])
+    } else if (id == current_list[1] && !Object.keys(list_storage).length) {
+        let becomeBlank = document.querySelector("#right-content");
+        becomeBlank.innerHTML = "";
+        current_list = [];
+    }
+
+    save_current_list();
     window.onload();
 }
 
@@ -100,16 +154,7 @@ function getListHTML(name, id) {
 function store_list(name, id) {
     list_storage[id] = {
         listName: name,
-        todos: [
-            {
-                taskName: "yo angelo",
-                completed: false
-            },
-            {
-                taskName: "because it is",
-                completed: false
-            }
-        ]
+        todos: []
     };
 }
 
@@ -133,12 +178,12 @@ function addTask() {
     let make_id = Math.random();
 
     add_todo.innerHTML += `
-        <div class="todo-task">
+        <div class="todo-task" id="${make_id}">
             <label class="check-box" >
                 <input class="checkTask" type="checkbox" onclick="markCompleted(${make_id})">
                 <span class="checkmark"></span>
             </label>
-            <h3 id="${make_id}">${task_input.value}</h3>
+            <h3>${task_input.value ? task_input.value : "Unamed"}</h3>
             <div class="task-options">
                 <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editButton('${make_id}')"></i>
                 <i class="fa-sharp fa-solid fa-trash" onclick="deleteTask('${make_id}')"></i>
@@ -147,11 +192,13 @@ function addTask() {
     `;
 
     current_list[0].todos.push({
-        taskName: `${task_input.value}`,
+        taskName: `${task_input.value ? task_input.value : "Unamed"}`,
         completed: false,
         taskID: make_id
     });
+
     save();
+    checkTask();
 
     task_input.value = "";
 }
@@ -163,21 +210,25 @@ function markCompleted(id) {
             break
         }
     }
+
+    save()
 }
 
 function deleteAllCompleted() {
     for (let i = current_list[0].todos.length - 1; i > -1; i--) {
         if (current_list[0].todos[i].completed == true) {
+            var todoElement = document.getElementById(`${current_list[0].todos[i].taskID}`);
+            fadeOut(todoElement);
             current_list[0].todos.splice(i, 1);
         }
     }
 
     save();
-    load_tasks(current_list[1]);
+    setTimeout(() => load_tasks(current_list[1]), 850);
 }
 
 function editButton(id) {
-    let editText = document.getElementById(id);
+    let editText = document.getElementById(id).querySelector('h3');
 
     if (editText.contentEditable == "true") {
         editText.contentEditable = false;
@@ -194,5 +245,4 @@ function editButton(id) {
         editText.contentEditable = true;
         editText.style.border = "2px solid black";
     }
-    
 }

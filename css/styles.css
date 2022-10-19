@@ -143,10 +143,10 @@ input {
 }
 
 #right-content #todo-container .todo-task h3 {
+  flex: 1;
   word-break: break-all;
   font-size: 1.3em;
   padding: 1%;
-  padding-left: 1%;
   margin-left: 10px;
   margin: 0px;
   border-radius: 5px;
@@ -283,7 +283,6 @@ input {
     padding-left: 2%;
     border: 0.5px solid black;
     border-radius: 1px;
-    font-size: 1.2em;
   }
 }
 @media only screen and (min-width: 2000px) {
